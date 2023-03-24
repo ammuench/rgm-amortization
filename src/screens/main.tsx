@@ -10,18 +10,19 @@ const MainScreen: React.FC = () => {
   };
 
   return (
-    <div className="grid h-screen w-screen items-center justify-items-center bg-gray-300 p-8">
-      <img src={LogoNoBG} alt="RGMA Logo" />
-      <div className="grid w-full grid-cols-2 justify-center gap-8">
-        <button
-          onClick={menuClick}
-          className="h-24 rounded-lg bg-green-700 p-1 text-3xl font-bold uppercase text-white transition hover:bg-green-900 hover:duration-75 hover:ease-in-out"
-        >
-          Create New Calculation
-        </button>
-        <button className="h-24  rounded-lg bg-green-700 p-1 text-3xl font-bold uppercase text-white transition hover:bg-green-900 hover:duration-75 hover:ease-in-out">
-          Load Existing Calculation
-        </button>
+    <div className="hero min-h-screen bg-gray-300">
+      <div className="hero-content text-center">
+        <div className="max-w-md">
+          <img src={LogoNoBG} alt="RGMA Logo" className="mb-8" />
+          <div className="grid w-full grid-cols-1 grid-rows-2 justify-center gap-8">
+            <button onClick={menuClick} className="btn-primary btn">
+              Create New Amortization Schedule
+            </button>
+            <button className="btn-primary btn">
+              Load Existing Calculation
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

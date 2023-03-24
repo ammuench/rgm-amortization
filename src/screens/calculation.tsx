@@ -1,9 +1,12 @@
 import React from "react";
+import Navigation from "../components/Navigation";
 
 const CalculationScreen: React.FC = () => {
-  console.log("calcscreen");
-
-  return <h1>CALC SCREEN</h1>;
+  return (
+    <div className="h-screen w-screen bg-gray-300">
+      <Navigation />
+    </div>
+  );
 };
 
 export default CalculationScreen;
