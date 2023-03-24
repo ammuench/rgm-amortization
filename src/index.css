@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url("../assets/fonts/manrope/_manrope-font.css");
+
+body {
+  font-family: "Manrope";
+}
