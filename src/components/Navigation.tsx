@@ -18,7 +18,7 @@ const Navigation: React.FC = () => {
             x="0"
             y="0"
             viewBox="5.0095295906066895 4.949999809265137 89.98094177246094 90.05000305175781"
-            enable-background="new 0 0 100 100"
+            enableBackground="new 0 0 100 100"
             height="89.41690313182811"
             width="89.34832739044252"
             data-fill-palette-color="accent"
@@ -71,7 +71,7 @@ const Navigation: React.FC = () => {
           </svg>
         </button>
         {menuOpen && (
-          <div className="absolute right-4 top-12">
+          <div className="absolute right-4 top-12 z-10">
             <ul className="menu rounded-box w-60 bg-secondary p-2 text-secondary-content">
               <li>
                 <a>
@@ -118,13 +118,13 @@ const Navigation: React.FC = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     className="h-6 w-6"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
                     />
                   </svg>

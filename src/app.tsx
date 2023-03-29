@@ -1,10 +1,11 @@
+import React from "react";
 import * as ReactDOM from "react-dom";
+import { createHashRouter, HashRouter, RouterProvider } from "react-router-dom";
 
+import CalculationScreen from "./screens/calculation";
 import MainScreen from "./screens/main";
 
 import "./index.css";
-import { createHashRouter, HashRouter, RouterProvider } from "react-router-dom";
-import CalculationScreen from "./screens/calculation";
 
 const router = createHashRouter([
   {
@@ -18,7 +19,12 @@ const router = createHashRouter([
 ]);
 
 function render() {
-  ReactDOM.render(<RouterProvider router={router} />, document.body);
+  ReactDOM.render(
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>,
+    document.body
+  );
 }
 
 render();
