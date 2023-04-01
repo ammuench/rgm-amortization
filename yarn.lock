@@ -2380,13 +2380,14 @@ escape-string-regexp@^4.0.0:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
-eslint-config-amuench@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-amuench/-/eslint-config-amuench-1.0.0.tgz#0659d3e7e5aa7ef0f7b43b4e98fcde82274115ce"
-  integrity sha512-lkJ39/J8B/nQSEe8TVl8UrC3uMiZzux/Q+QbK4a6jTyDMxOfg/oE4blWGtNNku0cgHzjs1WDUJhlwJ6A9ojyCA==
+eslint-config-amuench@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-amuench/-/eslint-config-amuench-2.1.0.tgz#ab3feb029f8bde61127aa162c5b866f37c0187c5"
+  integrity sha512-j9odDqEK0Cwuq2zeu/MPnyoVHbi855i7rMnE56gUDY0bcZBsppf3+kvfFaUT8s3t9T4oS6KyB0/nBQ5tQE1VYw==
   dependencies:
     eslint "^8.23.0"
     eslint-plugin-import-newlines "^1.2.3"
+    eslint-plugin-prefer-arrow "^1.2.3"
     eslint-plugin-react "^7.31.1"
     typescript "^4.2.3"
 
@@ -2436,6 +2437,11 @@ eslint-plugin-import@^2.25.0:
     resolve "^1.22.1"
     semver "^6.3.0"
     tsconfig-paths "^3.14.1"
+
+eslint-plugin-prefer-arrow@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-prefer-arrow/-/eslint-plugin-prefer-arrow-1.2.3.tgz#e7fbb3fa4cd84ff1015b9c51ad86550e55041041"
+  integrity sha512-J9I5PKCOJretVuiZRGvPQxCbllxGAV/viI20JO3LYblAodofBxyMnZAJ+WGeClHgANnSJberTNoFWWjrWKBuXQ==
 
 eslint-plugin-prettier@^4.2.1:
   version "4.2.1"
@@ -5318,11 +5324,6 @@ roarr@^2.15.3:
     json-stringify-safe "^5.0.1"
     semver-compare "^1.0.0"
     sprintf-js "^1.1.2"
-
-round-to@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/round-to/-/round-to-6.0.0.tgz#c12a8dee3c78cbc981d161ba8ff0214abd6cae53"
-  integrity sha512-jFvBgyRueGU0QVa7EqXZOkarkzrqEnF3VTCzATRcBkzxXJ4/+pzDf1iouqOqGsx6ZpnIIu5gvFDGnyzoX58ldQ==
 
 run-parallel@^1.1.9:
   version "1.2.0"

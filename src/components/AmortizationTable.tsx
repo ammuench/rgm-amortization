@@ -42,22 +42,8 @@ const calculatePrincipalInterest = (
   return { principalPaid, interestPaid };
 };
 
-const calcInterest = (
-  startingBal: number,
-  interestRate: number,
-  isYears: boolean
-): number => {
-  const aprValToPct = interestRate / 100;
-  if (isYears) {
-    return startingBal * aprValToPct;
-  }
-
-  return startingBal * (aprValToPct / 12);
-};
-
-const roundTo2Digits = (inputFloat: number, log = false): string => {
-  return (Math.round(inputFloat * 100) / 100).toFixed(2);
-};
+const roundTo2Digits = (inputFloat: number): string =>
+  (Math.round(inputFloat * 100) / 100).toFixed(2);
 
 interface AmorTableRow {
   periodIdx: number;
@@ -73,9 +59,6 @@ const createAmorTableRows = ({
   apr,
   paymentPeriodValue,
   paymentPeriodType,
-  annualTaxes,
-  annualInsurance,
-  annualHoa,
 }: CalculationData): AmorTableRow[] => {
   const runningAmorTableRows: AmorTableRow[] = [];
 
@@ -119,7 +102,6 @@ const createAmorTableRows = ({
         isYears
       );
       const lastBal = runningAmorTableRows[idx - 1].remainingBalance;
-      const remainingBalance = roundTo2Digits(lastBal - principalPaid);
       const computedAmorTableRow: AmorTableRow = {
         periodIdx: idx + 1,
         beginningBalance: lastBal,
@@ -136,25 +118,14 @@ const createAmorTableRows = ({
 };
 
 const AmortizationTable: React.FC<AmortizationTableProps> = ({ tableData }) => {
-  const { paymentPeriodType } = tableData;
-
-  const tableRows = useMemo(() => {
-    console.log({
-      label: "TABLEROWGEN",
-      tableData,
-      newTableRows: createAmorTableRows(tableData),
-    });
-    return createAmorTableRows(tableData);
-  }, [tableData]);
+  const tableRows = useMemo(() => createAmorTableRows(tableData), [tableData]);
 
   return (
     <div className="overflow-x-auto">
       <table className="table-zebra table-compact table w-full">
         <thead>
           <tr>
-            <th>
-              {paymentPeriodType === PaymentPeriod.MONTH ? "Month" : "Year"}
-            </th>
+            <th>Month</th>
             <th>Beginning Balance</th>
             <th>Payment</th>
             <th>Interest</th>
@@ -171,25 +142,21 @@ const AmortizationTable: React.FC<AmortizationTableProps> = ({ tableData }) => {
               interest,
               principal,
               remainingBalance,
-            }) => {
-              return (
-                <tr>
-                  <td>{periodIdx}</td>
-                  <td>${roundTo2Digits(beginningBalance)}</td>
-                  <td>${roundTo2Digits(paymentAmt)}</td>
-                  <td>${roundTo2Digits(interest)}</td>
-                  <td>${roundTo2Digits(principal)}</td>
-                  <td>${roundTo2Digits(remainingBalance)}</td>
-                </tr>
-              );
-            }
+            }) => (
+              <tr>
+                <td>{periodIdx}</td>
+                <td>${roundTo2Digits(beginningBalance)}</td>
+                <td>${roundTo2Digits(paymentAmt)}</td>
+                <td>${roundTo2Digits(interest)}</td>
+                <td>${roundTo2Digits(principal)}</td>
+                <td>${roundTo2Digits(remainingBalance)}</td>
+              </tr>
+            )
           )}
         </tbody>
         <tfoot>
           <tr>
-            <th>
-              {paymentPeriodType === PaymentPeriod.MONTH ? "Month" : "Year"}
-            </th>
+            <th>Month</th>
             <th>Beginning Balance</th>
             <th>Payment</th>
             <th>Interest</th>
