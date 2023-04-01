@@ -1,5 +1,5 @@
 import React from "react";
-import * as ReactDOM from "react-dom";
+
 import { createHashRouter, RouterProvider } from "react-router-dom";
 
 import CalculationScreen from "./screens/calculation";
@@ -18,13 +18,10 @@ const router = createHashRouter([
   },
 ]);
 
-function render() {
-  ReactDOM.render(
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>,
-    document.body
-  );
-}
+const App = () => (
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);
 
-render();
+export default App;

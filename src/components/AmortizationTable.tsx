@@ -10,13 +10,13 @@ const calcPayment = (
   presentVal: number,
   apr: number,
   totalPeriods: number,
+  addlAnnualFees: number[],
   isYears: boolean
 ): number => {
   const aprValToPct = apr / 100;
-  const rate = isYears ? aprValToPct : aprValToPct / 12;
+  const rate = aprValToPct / 12;
   const nper = isYears ? totalPeriods * 12 : totalPeriods;
 
-  // idk why I need to invert this but I do
   return -pmt(rate, nper, presentVal);
 };
 
@@ -52,6 +52,9 @@ interface AmorTableRow {
   interest: number;
   principal: number;
   remainingBalance: number;
+  monthlyTaxes: number;
+  monthlyInsurance: number;
+  monthlyHoa: number;
 }
 
 const createAmorTableRows = ({
@@ -59,19 +62,37 @@ const createAmorTableRows = ({
   apr,
   paymentPeriodValue,
   paymentPeriodType,
+  annualTaxes,
+  annualInsurance,
+  annualHoa,
 }: CalculationData): AmorTableRow[] => {
   const runningAmorTableRows: AmorTableRow[] = [];
 
   const isYears = paymentPeriodType === PaymentPeriod.YEAR;
 
-  const iterableArr = new Array(paymentPeriodValue).fill(0);
+  const iterableArr = new Array(
+    isYears ? paymentPeriodValue * 12 : paymentPeriodValue
+  ).fill(0);
 
   const monthlyPayment = calcPayment(
     loanAmount,
     apr,
     paymentPeriodValue,
+    [annualHoa, annualTaxes, annualInsurance],
     isYears
   );
+
+  const monthlyAdditionalFees = {
+    monthlyTaxes: annualTaxes / 12,
+    monthlyInsurance: annualInsurance / 12,
+    monthlyHoa: annualHoa / 12,
+  };
+
+  const additionalFeesPayment = [
+    monthlyAdditionalFees.monthlyHoa,
+    monthlyAdditionalFees.monthlyInsurance,
+    monthlyAdditionalFees.monthlyTaxes,
+  ].reduce((prev, curr) => prev + curr);
 
   iterableArr.forEach((num, idx) => {
     if (idx === 0) {
@@ -86,10 +107,11 @@ const createAmorTableRows = ({
       const computedAmorTableRow: AmorTableRow = {
         periodIdx: idx + 1,
         beginningBalance: loanAmount,
-        paymentAmt: monthlyPayment,
+        paymentAmt: monthlyPayment + additionalFeesPayment,
         interest: interestPaid,
         principal: principalPaid,
         remainingBalance: loanAmount - principalPaid,
+        ...monthlyAdditionalFees,
       };
       runningAmorTableRows.push(computedAmorTableRow);
     } else {
@@ -105,10 +127,11 @@ const createAmorTableRows = ({
       const computedAmorTableRow: AmorTableRow = {
         periodIdx: idx + 1,
         beginningBalance: lastBal,
-        paymentAmt: monthlyPayment,
+        paymentAmt: monthlyPayment + additionalFeesPayment,
         interest: interestPaid,
         principal: principalPaid,
         remainingBalance: lastBal - principalPaid,
+        ...monthlyAdditionalFees,
       };
       runningAmorTableRows.push(computedAmorTableRow);
     }
@@ -121,7 +144,7 @@ const AmortizationTable: React.FC<AmortizationTableProps> = ({ tableData }) => {
   const tableRows = useMemo(() => createAmorTableRows(tableData), [tableData]);
 
   return (
-    <div className="overflow-x-auto">
+    <div className="1 overflow-x-auto">
       <table className="table-zebra table-compact table w-full">
         <thead>
           <tr>
@@ -130,6 +153,9 @@ const AmortizationTable: React.FC<AmortizationTableProps> = ({ tableData }) => {
             <th>Payment</th>
             <th>Interest</th>
             <th>Principal</th>
+            {tableRows[0].monthlyHoa > 0 && <th>HOA Fees</th>}
+            {tableRows[0].monthlyTaxes > 0 && <th>Taxes</th>}
+            {tableRows[0].monthlyInsurance > 0 && <th>Home Insurance</th>}
             <th>Resulting Balance</th>
           </tr>
         </thead>
@@ -142,13 +168,21 @@ const AmortizationTable: React.FC<AmortizationTableProps> = ({ tableData }) => {
               interest,
               principal,
               remainingBalance,
+              monthlyHoa,
+              monthlyInsurance,
+              monthlyTaxes,
             }) => (
-              <tr>
+              <tr key={`row__month__${periodIdx}`}>
                 <td>{periodIdx}</td>
                 <td>${roundTo2Digits(beginningBalance)}</td>
                 <td>${roundTo2Digits(paymentAmt)}</td>
                 <td>${roundTo2Digits(interest)}</td>
                 <td>${roundTo2Digits(principal)}</td>
+                {monthlyHoa > 0 && <td>${roundTo2Digits(monthlyHoa)}</td>}
+                {monthlyTaxes > 0 && <td>${roundTo2Digits(monthlyTaxes)}</td>}
+                {monthlyInsurance > 0 && (
+                  <td>${roundTo2Digits(monthlyInsurance)}</td>
+                )}
                 <td>${roundTo2Digits(remainingBalance)}</td>
               </tr>
             )
@@ -161,6 +195,9 @@ const AmortizationTable: React.FC<AmortizationTableProps> = ({ tableData }) => {
             <th>Payment</th>
             <th>Interest</th>
             <th>Principal</th>
+            {tableRows[0].monthlyHoa > 0 && <th>HOA Fees</th>}
+            {tableRows[0].monthlyTaxes > 0 && <th>Taxes</th>}
+            {tableRows[0].monthlyInsurance > 0 && <th>Home Insurance</th>}
             <th>Resulting Balance</th>
           </tr>
         </tfoot>

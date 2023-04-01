@@ -27,9 +27,15 @@
  */
 
 import "./index.css";
+import * as ReactDOMClient from "react-dom/client";
+import App from "./app";
 
 console.log(
   '👋 This message is being logged by "renderer.js", included via webpack'
 );
 
-import "./app";
+const root = ReactDOMClient.createRoot(
+  document.getElementById("rgm-amor-app") as HTMLElement
+);
+
+root.render(<App />);
