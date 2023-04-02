@@ -11,5 +11,8 @@
     "ecmaVersion": "latest",
     "sourceType": "module",
     "project": ["tsconfig.json"]
+  },
+  "rules": {
+    "import-newlines/enforce": 0
   }
 }

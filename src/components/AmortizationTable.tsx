@@ -1,5 +1,6 @@
 import { pmt } from "financial";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
+import { useCurrentTableStore } from "../store/currentTableStore";
 import { CalculationData, PaymentPeriod } from "../store/calculationStore";
 
 interface AmortizationTableProps {
@@ -141,7 +142,14 @@ const createAmorTableRows = ({
 };
 
 const AmortizationTable: React.FC<AmortizationTableProps> = ({ tableData }) => {
+  const { setTableData } = useCurrentTableStore();
   const tableRows = useMemo(() => createAmorTableRows(tableData), [tableData]);
+
+  useEffect(() => {
+    if (tableRows && tableRows.length > 0) {
+      setTableData(tableRows);
+    }
+  }, [tableRows]);
 
   return (
     <div className="1 overflow-x-auto">

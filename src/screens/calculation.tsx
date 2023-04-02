@@ -91,10 +91,16 @@ const CalculationScreen: React.FC = () => {
               <label className="input-group">
                 <input
                   onChange={(e) => {
-                    inputChangeHandler(e.target.value, "paymentPeriodValue");
+                    //replace non-digits with blank
+                    const value = e.target.value.replace(/[^\d]/, "");
+
+                    if (parseInt(value) !== 0) {
+                      inputChangeHandler(value, "paymentPeriodValue");
+                    }
                   }}
                   value={paymentPeriodValue}
                   min={1}
+                  step={1}
                   type="number"
                   placeholder="96"
                   className="input-bordered input w-full max-w-xs"
