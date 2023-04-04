@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-simple-toasts";
+
 import Toast, { ToastLevel } from "./Toast";
 
+import { useCurrentTableStore } from "../store/currentTableStore";
+
 import BrandMarkLogo from "../svgIcons/BrandMarkLogo";
+import CodeIcon from "../svgIcons/CodeIcon";
 import ExportLogo from "../svgIcons/ExportIcon";
 import LogoutIcon from "../svgIcons/LogoutIcon";
 import ThreeDotIcon from "../svgIcons/ThreeDotIcon";
 import SaveIcon from "../svgIcons/SaveIcon";
-import { useCurrentTableStore } from "../store/currentTableStore";
+
+import * as pjson from "../../package.json";
 
 const Navigation: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [aboutOpen, setAboutOpen] = useState<boolean>(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -49,7 +55,12 @@ const Navigation: React.FC = () => {
   return (
     <div className="navbar bg-neutral text-neutral-content">
       <div className="flex-1">
-        <a className="btn-ghost btn text-xl normal-case">
+        <a
+          onClick={() => {
+            setAboutOpen(true);
+          }}
+          className="btn-ghost btn text-xl normal-case"
+        >
           <BrandMarkLogo />
           Amortization Calculator
         </a>
@@ -88,6 +99,60 @@ const Navigation: React.FC = () => {
             </ul>
           </div>
         )}
+        <div
+          className={`modal ${
+            aboutOpen ? "pointer-events-auto visible opacity-100" : ""
+          }`}
+          id="my-modal-2"
+        >
+          <div className="modal-box text-base-content">
+            <div className="grid h-full w-full grid-cols-[auto_1fr] gap-4">
+              <div>
+                <BrandMarkLogo className="fill-primary stroke-primary [&>*]:fill-primary" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold">
+                  Amortization Calculator v{pjson.version}
+                </h3>
+                <p className="py-4 text-lg">
+                  <span>
+                    &copy;{" "}
+                    <a
+                      className="link-primary cursor-pointer"
+                      onClick={() => {
+                        (window as any).channels.openExternalBrowser(
+                          "https://alexmuen.ch"
+                        );
+                      }}
+                    >
+                      Alex Muench
+                    </a>{" "}
+                    2023
+                  </span>
+                  <br />
+                  <span className="flex items-center gap-1">
+                    <CodeIcon />
+                    <a
+                      className="link-primary cursor-pointer"
+                      onClick={() => {
+                        (window as any).channels.openExternalBrowser(
+                          "https://github.com/ammuench/rgm-amortization"
+                        );
+                      }}
+                    >
+                      Source Code on Github
+                    </a>
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div className="modal-action">
+              <button onClick={() => setAboutOpen(false)} className="btn">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

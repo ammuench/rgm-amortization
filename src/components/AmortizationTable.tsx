@@ -2,6 +2,7 @@ import { pmt } from "financial";
 import React, { useEffect, useMemo } from "react";
 import { useCurrentTableStore } from "../store/currentTableStore";
 import { CalculationData, PaymentPeriod } from "../store/calculationStore";
+import { roundTo2Digits } from "../util/math.util";
 
 interface AmortizationTableProps {
   tableData: CalculationData;
@@ -43,10 +44,7 @@ const calculatePrincipalInterest = (
   return { principalPaid, interestPaid };
 };
 
-const roundTo2Digits = (inputFloat: number): string =>
-  (Math.round(inputFloat * 100) / 100).toFixed(2);
-
-interface AmorTableRow {
+export interface AmorTableRow {
   periodIdx: number;
   beginningBalance: number;
   paymentAmt: number;

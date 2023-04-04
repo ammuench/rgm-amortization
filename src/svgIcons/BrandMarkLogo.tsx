@@ -1,4 +1,4 @@
-const BrandMarkLogo: React.FC = () => (
+const BrandMarkLogo: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
@@ -11,6 +11,7 @@ const BrandMarkLogo: React.FC = () => (
     data-fill-palette-color="accent"
     id="icon-0"
     className="mr-2 h-6 w-6"
+    {...props}
   >
     <path
       d="M7.5 52.5H15v40c0 1.4 1.1 2.5 2.5 2.5h65c1.4 0 2.5-1.1 2.5-2.5v-40h7.5c2.2 0 3.3-2.7 1.8-4.3L51.8 5.7c-1-1-2.6-1-3.5 0L5.7 48.2C4.2 49.8 5.3 52.5 7.5 52.5zM50 11l36.5 36.5h-4c-1.4 0-2.5 1.1-2.5 2.5v40H20V50c0-1.4-1.1-2.5-2.5-2.5h-4L50 11z"
