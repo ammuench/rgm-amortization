@@ -6,8 +6,8 @@ import CHANNELS from "./shared/channels";
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("channels", {
-  saveFile: (tableData: any[]) =>
-    ipcRenderer.invoke(CHANNELS.SAVE_FILE, tableData),
+  exportCSV: (tableData: any[]) =>
+    ipcRenderer.invoke(CHANNELS.EXPORT_CSV, tableData),
   openExternalBrowser: (url: string) =>
     ipcRenderer.invoke(CHANNELS.OPEN_DESKTOP_BROWSER, url),
 });

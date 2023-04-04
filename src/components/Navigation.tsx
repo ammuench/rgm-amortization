@@ -43,7 +43,7 @@ const Navigation: React.FC = () => {
       generateToast("No Table to Export", "warning");
     } else {
       try {
-        await (window as any).channels.saveFile(tableData);
+        await (window as any).channels.exportCSV(tableData);
         generateToast("Table Successfully Exported", "success");
       } catch (e) {
         generateToast("Error Exporting Table!", "error");
