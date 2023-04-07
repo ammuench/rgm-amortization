@@ -4,6 +4,7 @@ import toast from "react-simple-toasts";
 
 import Toast, { ToastLevel } from "./Toast";
 
+import { useCalculationStore } from "../store/calculationStore";
 import { useCurrentTableStore } from "../store/currentTableStore";
 
 import BrandMarkLogo from "../svgIcons/BrandMarkLogo";
@@ -24,6 +25,7 @@ const Navigation: React.FC = () => {
   };
 
   const { tableData } = useCurrentTableStore();
+  const { getCalcDataSnapshot } = useCalculationStore();
 
   const generateToast = (
     toastStr: string,
@@ -47,6 +49,25 @@ const Navigation: React.FC = () => {
         generateToast("Table Successfully Exported", "success");
       } catch (e) {
         generateToast("Error Exporting Table!", "error");
+      }
+    }
+    toggleMenu();
+  };
+
+  const saveConfig = async () => {
+    const configData = getCalcDataSnapshot();
+    console.log(configData);
+    if (!configData) {
+      generateToast("Unable to Save Amortization Config", "warning");
+    } else {
+      try {
+        const stringifiedData = JSON.stringify(configData, null, 2);
+        await (window as any).channels.saveConfig(stringifiedData);
+        generateToast("Amortization Config Successfully Saved", "success");
+      } catch (e) {
+        console.log(e);
+        console.trace(e);
+        generateToast("Error to Saving Amortization Config", "error");
       }
     }
     toggleMenu();
@@ -78,7 +99,7 @@ const Navigation: React.FC = () => {
           <div className="absolute right-4 top-12 z-10">
             <ul className="menu rounded-box w-60 bg-secondary p-2 text-secondary-content">
               <li>
-                <a>
+                <a onClick={saveConfig}>
                   <SaveIcon />
                   Save
                 </a>

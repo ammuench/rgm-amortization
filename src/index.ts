@@ -56,3 +56,4 @@ app.on("activate", () => {
 
 import "./electronServices/exportCSV";
 import "./electronServices/openLink";
+import "./electronServices/saveConfig";

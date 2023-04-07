@@ -57,7 +57,12 @@ ipcMain.handle(
           });
           const csvParse = new AsyncParser({}, {}, {});
           const csv = await csvParse.parse(preppedTableData).promise();
-          await jetpack.writeAsync(filePath, csv);
+          let filePathToUse = filePath;
+          const [REGEX_MATCH] = filePath.match(/.csv$/i) ?? [];
+          if (!REGEX_MATCH) {
+            filePathToUse = `${filePath}.csv`;
+          }
+          await jetpack.writeAsync(filePathToUse, csv);
           return "FILE_WRITTEN";
         } catch (e) {
           return "ERROR";

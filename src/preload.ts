@@ -10,4 +10,6 @@ contextBridge.exposeInMainWorld("channels", {
     ipcRenderer.invoke(CHANNELS.EXPORT_CSV, tableData),
   openExternalBrowser: (url: string) =>
     ipcRenderer.invoke(CHANNELS.OPEN_DESKTOP_BROWSER, url),
+  saveConfig: (configDataStr: string) =>
+    ipcRenderer.invoke(CHANNELS.SAVE_FILE, configDataStr),
 });
