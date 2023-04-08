@@ -12,4 +12,6 @@ contextBridge.exposeInMainWorld("channels", {
     ipcRenderer.invoke(CHANNELS.OPEN_DESKTOP_BROWSER, url),
   saveConfig: (configDataStr: string) =>
     ipcRenderer.invoke(CHANNELS.SAVE_FILE, configDataStr),
+  loadConfig: (configDataStr: string) =>
+    ipcRenderer.invoke(CHANNELS.LOAD_FILE, configDataStr),
 });

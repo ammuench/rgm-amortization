@@ -20,6 +20,7 @@ export interface CalculationState extends CalculationData {
     value: CalculationData[K],
     key: K
   ) => void;
+  loadCalcData: (loadData: CalculationData) => void;
   getCalcDataSnapshot: () => CalculationData;
 }
 
@@ -32,5 +33,10 @@ export const useCalculationStore = create<CalculationState>((set, get) => ({
   annualInsurance: 0,
   annualHoa: 0,
   setCalcStateProp: (value, key) => set(() => ({ [key]: value })),
+  loadCalcData: (value: CalculationData) =>
+    set((state) => ({
+      ...state,
+      ...value,
+    })),
   getCalcDataSnapshot: () => get(),
 }));

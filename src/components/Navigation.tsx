@@ -16,6 +16,8 @@ import SaveIcon from "../svgIcons/SaveIcon";
 
 import * as pjson from "../../package.json";
 
+import "./Navigation.css";
+
 const Navigation: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [aboutOpen, setAboutOpen] = useState<boolean>(false);
@@ -45,8 +47,11 @@ const Navigation: React.FC = () => {
       generateToast("No Table to Export", "warning");
     } else {
       try {
-        await (window as any).channels.exportCSV(tableData);
+        const exportInfo = await (window as any).channels.exportCSV(tableData);
         generateToast("Table Successfully Exported", "success");
+        if (exportInfo) {
+          generateToast("Amortization Config Successfully Saved", "success");
+        }
       } catch (e) {
         generateToast("Error Exporting Table!", "error");
       }
@@ -62,8 +67,12 @@ const Navigation: React.FC = () => {
     } else {
       try {
         const stringifiedData = JSON.stringify(configData, null, 2);
-        await (window as any).channels.saveConfig(stringifiedData);
-        generateToast("Amortization Config Successfully Saved", "success");
+        const saveInfo = await (window as any).channels.saveConfig(
+          stringifiedData
+        );
+        if (saveInfo) {
+          generateToast("Amortization Config Successfully Saved", "success");
+        }
       } catch (e) {
         console.log(e);
         console.trace(e);
@@ -74,7 +83,7 @@ const Navigation: React.FC = () => {
   };
 
   return (
-    <div className="navbar bg-neutral text-neutral-content">
+    <nav className="navbar bg-neutral text-neutral-content">
       <div className="flex-1">
         <a
           onClick={() => {
@@ -175,7 +184,7 @@ const Navigation: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 
