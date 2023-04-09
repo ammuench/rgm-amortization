@@ -16,14 +16,14 @@ const createWindow = (): void => {
   const mainWindow = new BrowserWindow({
     frame: true,
     autoHideMenuBar: true,
-    height: 601,
+    height: 768,
     movable: true,
     title: "Amortization Calculator",
-    width: 801,
+    width: 1024,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       nodeIntegration: true,
-      devTools: app.isPackaged,
+      devTools: !app.isPackaged,
     },
   });
 
