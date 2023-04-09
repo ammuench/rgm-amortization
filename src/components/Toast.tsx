@@ -1,4 +1,5 @@
 import React from "react";
+import toast from "react-simple-toasts";
 
 export type ToastLevel = "info" | "warning" | "error" | "success";
 
@@ -98,5 +99,19 @@ const Toast: React.FC<ToastProps> = ({ toastMsg, toastLevel }) => (
     </div>
   </div>
 );
+
+export const generateToast = (
+  toastStr: string,
+  toastLevel: ToastLevel = "info"
+): void => {
+  toast(toastStr, {
+    time: 2500,
+    clickable: false,
+    clickClosable: false,
+    position: "bottom-right",
+    maxVisibleToasts: 5,
+    render: () => <Toast toastMsg={toastStr} toastLevel={toastLevel} />,
+  });
+};
 
 export default Toast;

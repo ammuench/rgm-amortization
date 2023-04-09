@@ -3,11 +3,11 @@ import * as jetpack from "fs-jetpack";
 
 import CHANNELS from "../shared/channels";
 
-ipcMain.handle(CHANNELS.LOAD_FILE, async (event, configData: string) => {
+ipcMain.handle(CHANNELS.LOAD_FILE, async () => {
   const currWindow = BrowserWindow.getFocusedWindow();
   if (currWindow) {
-    const filePath = dialog.showSaveDialogSync(currWindow, {
-      title: "Save Exported Sheet",
+    const filePath = dialog.showOpenDialogSync(currWindow, {
+      title: "Load Amortization Data",
       defaultPath: app.getPath("home"),
       filters: [
         {
@@ -15,17 +15,14 @@ ipcMain.handle(CHANNELS.LOAD_FILE, async (event, configData: string) => {
           extensions: ["AMOR"],
         },
       ],
-      properties: ["showOverwriteConfirmation"],
+      properties: ["openFile"],
     });
     if (filePath) {
       try {
-        let filePathToUse = filePath;
-        const [REGEX_MATCH] = filePath.match(/.amor$/i) ?? [];
-        if (!REGEX_MATCH) {
-          filePathToUse = `${filePath}.amor`;
-        }
-        await jetpack.writeAsync(filePathToUse, configData);
-        return "FILE_WRITTEN";
+        let filePathToUse = filePath[0];
+        const parsedData = await jetpack.readAsync(filePathToUse, "json");
+        console.log(parsedData);
+        return parsedData;
       } catch (e) {
         return "ERROR";
       }

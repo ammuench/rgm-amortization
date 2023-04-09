@@ -6,6 +6,7 @@ import {
 } from "../store/calculationStore";
 import Navigation from "../components/Navigation";
 import AmortizationTable from "../components/AmortizationTable";
+import { generateToast } from "../components/Toast";
 
 const CalculationScreen: React.FC = () => {
   const {
@@ -32,9 +33,21 @@ const CalculationScreen: React.FC = () => {
 
   const updateTableData = () => {
     const dataSnapshot = getCalcDataSnapshot();
-    if (dataSnapshot.paymentPeriodValue !== 0) {
-      setTableData(dataSnapshot);
+    if (dataSnapshot.loanAmount === 0) {
+      generateToast("Loan Amount Cannot be Zero", "error");
+      return;
     }
+    if (dataSnapshot.apr === 0) {
+      generateToast("APR Cannot be Zero", "error");
+      return;
+    }
+    if (dataSnapshot.paymentPeriodValue === 0) {
+      generateToast("Payment Period Cannot be Zero", "error");
+      return;
+    }
+
+    setTableData(dataSnapshot);
+    generateToast("Amortization Table Updated", "success");
   };
 
   return (
@@ -196,7 +209,17 @@ const CalculationScreen: React.FC = () => {
           </div>
         </div>
         <div className="overflow-y-auto pt-4">
-          {tableData && <AmortizationTable tableData={tableData} />}
+          {tableData ? (
+            <AmortizationTable tableData={tableData} />
+          ) : (
+            <div className="flex h-full flex-col items-center justify-center">
+              <h2 className="text-2xl font-bold">No Data Generated Yet</h2>
+              <p>
+                Add data and press 'Update Amortization Table' to generate an
+                amortization schedule
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

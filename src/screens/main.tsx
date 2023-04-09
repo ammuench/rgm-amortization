@@ -17,11 +17,11 @@ const MainScreen: React.FC = () => {
 
   const loadFile = async () => {
     try {
-      const configDataStr: string | null | undefined = await (
+      const configData: CalculationData | null | undefined = await (
         window as any
-      ).channels.loadFile();
-      if (configDataStr) {
-        const parsedData = JSON.parse(configDataStr) as CalculationData;
+      ).channels.loadConfig();
+      if (configData) {
+        const parsedData = configData;
         loadCalcData(parsedData);
         menuClick();
       }
@@ -35,7 +35,11 @@ const MainScreen: React.FC = () => {
     <div className="hero min-h-screen bg-gray-300">
       <div className="hero-content text-center">
         <div className="max-w-md">
-          <img src={LogoNoBG} alt="RGMA Logo" className="mb-8" />
+          <img
+            src={LogoNoBG}
+            alt="Amortization Calculator Logo"
+            className="mb-8"
+          />
           <div className="grid w-full grid-cols-1 grid-rows-2 justify-center gap-8">
             <button onClick={menuClick} className="btn-primary btn">
               Create New Amortization Schedule

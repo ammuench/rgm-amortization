@@ -1,3 +1,3 @@
-nav {
+nav .draggable {
   -webkit-app-region: drag;
 }

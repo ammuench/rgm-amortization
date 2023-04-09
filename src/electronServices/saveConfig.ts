@@ -7,7 +7,7 @@ ipcMain.handle(CHANNELS.SAVE_FILE, async (event, configData: string) => {
   const currWindow = BrowserWindow.getFocusedWindow();
   if (currWindow) {
     const filePath = dialog.showSaveDialogSync(currWindow, {
-      title: "Save Exported Sheet",
+      title: "Save Amortization Data",
       defaultPath: app.getPath("home"),
       filters: [
         {

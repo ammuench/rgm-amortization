@@ -15,16 +15,7 @@ export type CalculationData = {
   annualHoa: number;
 };
 
-export interface CalculationState extends CalculationData {
-  setCalcStateProp: <K extends keyof CalculationData>(
-    value: CalculationData[K],
-    key: K
-  ) => void;
-  loadCalcData: (loadData: CalculationData) => void;
-  getCalcDataSnapshot: () => CalculationData;
-}
-
-export const useCalculationStore = create<CalculationState>((set, get) => ({
+const DEFAULT_CALCULATION_STATE: CalculationData = {
   loanAmount: 0,
   apr: 0,
   paymentPeriodType: PaymentPeriod.MONTH,
@@ -32,6 +23,20 @@ export const useCalculationStore = create<CalculationState>((set, get) => ({
   annualTaxes: 0,
   annualInsurance: 0,
   annualHoa: 0,
+};
+
+export interface CalculationState extends CalculationData {
+  setCalcStateProp: <K extends keyof CalculationData>(
+    value: CalculationData[K],
+    key: K
+  ) => void;
+  loadCalcData: (loadData: CalculationData) => void;
+  resetState: () => void;
+  getCalcDataSnapshot: () => CalculationData;
+}
+
+export const useCalculationStore = create<CalculationState>((set, get) => ({
+  ...DEFAULT_CALCULATION_STATE,
   setCalcStateProp: (value, key) => set(() => ({ [key]: value })),
   loadCalcData: (value: CalculationData) =>
     set((state) => ({
@@ -39,4 +44,9 @@ export const useCalculationStore = create<CalculationState>((set, get) => ({
       ...value,
     })),
   getCalcDataSnapshot: () => get(),
+  resetState: () =>
+    set((state) => ({
+      ...state,
+      ...DEFAULT_CALCULATION_STATE,
+    })),
 }));

@@ -14,16 +14,16 @@ if (require("electron-squirrel-startup")) {
 const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    frame: false,
+    frame: true,
     autoHideMenuBar: true,
     height: 601,
-    titleBarStyle: "hiddenInset",
     movable: true,
     title: "Amortization Calculator",
     width: 801,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       nodeIntegration: true,
+      devTools: app.isPackaged,
     },
   });
 
@@ -62,3 +62,4 @@ app.on("activate", () => {
 import "./electronServices/exportCSV";
 import "./electronServices/openLink";
 import "./electronServices/saveConfig";
+import "./electronServices/loadConfig";

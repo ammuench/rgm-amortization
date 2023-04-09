@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import toast from "react-simple-toasts";
-
-import Toast, { ToastLevel } from "./Toast";
 
 import { useCalculationStore } from "../store/calculationStore";
 import { useCurrentTableStore } from "../store/currentTableStore";
@@ -17,6 +14,7 @@ import SaveIcon from "../svgIcons/SaveIcon";
 import * as pjson from "../../package.json";
 
 import "./Navigation.css";
+import { generateToast } from "./Toast";
 
 const Navigation: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -29,28 +27,14 @@ const Navigation: React.FC = () => {
   const { tableData } = useCurrentTableStore();
   const { getCalcDataSnapshot } = useCalculationStore();
 
-  const generateToast = (
-    toastStr: string,
-    toastLevel: ToastLevel = "info"
-  ): void => {
-    toast(toastStr, {
-      time: 2500,
-      clickClosable: true,
-      position: "bottom-right",
-      maxVisibleToasts: 5,
-      render: () => <Toast toastMsg={toastStr} toastLevel={toastLevel} />,
-    });
-  };
-
   const exportTableToCSV = async () => {
     if (tableData.length === 0) {
       generateToast("No Table to Export", "warning");
     } else {
       try {
         const exportInfo = await (window as any).channels.exportCSV(tableData);
-        generateToast("Table Successfully Exported", "success");
         if (exportInfo) {
-          generateToast("Amortization Config Successfully Saved", "success");
+          generateToast("Table Successfully Exported", "success");
         }
       } catch (e) {
         generateToast("Error Exporting Table!", "error");
